@@ -1,0 +1,188 @@
+#include <stdio.h>
+#include <string.h>
+#define CapacidadMaxima 100
+#define MaxNombre 50
+
+int main ()
+{
+
+    // Variables
+
+    int UserSelect, NumProductos = 0, i, Loop = 1;
+    char Nombre[CapacidadMaxima][MaxNombre];
+    int Cantidad[CapacidadMaxima];
+    float Precio[CapacidadMaxima];
+
+
+    // Despliegue del Menu
+
+    Menu:
+
+
+    printf("\nSISTEMA DE INVENTARIO\n");
+    printf("1. Ingresar producto\n");
+    printf("2. Editar producto\n");
+    printf("3. Eliminar producto\n");
+    printf("4. Listar productos\n");
+    printf("5. Salir\n");
+    printf("Ingrese una opción: ");
+    scanf("%d", &UserSelect);
+
+
+    // SwitchCase segun la seleccion del usuario
+
+    switch (UserSelect)
+    {
+    case 1: // Ingresar Producto 
+
+        for (i = 0; i < CapacidadMaxima; i++)
+        {
+
+        NumProductos++;
+
+        printf("Ingrese el nombre del producto:\n");
+        scanf("%s", &Nombre[i]);
+
+        printf("Ingrese la cantidad del producto:\n");
+        scanf("%d", &Cantidad[i]);
+
+        printf("Ingrese precio del producto:\n");
+        scanf("%f", &Precio[i]);
+
+        printf("Desea ingresar otro producto? Si:1 / No: 0 \n");
+        scanf("%d", &Loop);
+
+        if (Loop == 0){
+
+            goto Menu;
+
+        }
+
+        }
+
+        break;
+
+    case 2: // Editar Producto 
+
+        if (NumProductos == 0){
+            printf("\nNo hay articulos en el inventario!\n");
+            goto Menu;
+        }
+
+        int ProductToEdit;
+
+            printf("Ingrese el numero del producto en la lista que desea editar:\n");
+            scanf ("%d", &ProductToEdit);
+
+            ProductToEdit--;
+
+            printf("Seleccione el valor que desea editar: \n");
+            printf("1. Editar nombre\n");
+            printf("2. Editar cantidad\n");
+            printf("3. Editar precio\n");
+            scanf("%d", &UserSelect);
+
+            switch (UserSelect) // Que valor va a editar segun la seleccion
+            {
+            case 1:
+                
+                printf("Ingrese el nuevo nombre del producto:\n");
+                scanf("%s", &Nombre[ProductToEdit]);
+
+                printf("El producto se ha editado exitosamente!\n");
+
+                break;
+
+            case 2:
+
+                printf("Ingrese la nueva cantidad del producto:\n");
+                scanf("%d", &Cantidad[ProductToEdit]);
+
+                printf("El producto se ha editado exitosamente!\n");
+
+                break;
+
+            case 3:
+
+                printf("Ingrese nuevo precio del producto:\n");
+                scanf("%f", &Precio[ProductToEdit]);
+                
+
+                printf("El producto se ha editado exitosamente!\n");
+
+                break;
+            
+            default:
+
+                break;
+            }
+
+            goto Menu;
+
+        break;
+
+
+    case 3: //Eliminar un producto
+
+        if (NumProductos == 0){
+            printf("\nNo hay articulos en el inventario!\n");
+            goto Menu;
+        }
+
+        int DelProduct;
+
+        printf("Ingrese el número del elemento en el inventario que desea eliminar: ");
+        scanf("%d", &DelProduct);
+
+            // Los elementos inferiores al elemento que se va a eliminar se desplazan hacia arriba
+            // Esto quiere decir que el elemento previo al que se desea eliminar sobreescribe al que se elimina, 
+            // eso se hace en bucle segun los items del inventario
+
+        for (i = DelProduct - 1; i < NumProductos - 1; i++) {
+        strcpy(Nombre[i], Nombre[i + 1]);
+        Cantidad[i] = Cantidad[i + 1];
+        Precio[i] = Precio[i + 1];
+
+        }
+
+        NumProductos--;
+
+        printf("El elemento fue eliminado exitosamente!");
+
+        goto Menu;
+
+        break;
+
+    case 4: // Desplegar inventario
+
+        if (NumProductos == 0){
+            printf("\nNo hay articulos en el inventario!\n");
+            goto Menu;
+        } else {
+
+            printf("\nInventario\n");
+
+            for (i = 0; i < NumProductos; i++)
+            {
+
+                printf("%s\t%d\t%.2f\n", Nombre[i], Cantidad[i], Precio[i]);
+        
+            }
+        }
+
+        goto Menu;
+
+        break;
+
+    case 5: //Salir
+
+        return 0;
+
+        break;
+
+    default:
+
+        break;
+    }
+    
+}
